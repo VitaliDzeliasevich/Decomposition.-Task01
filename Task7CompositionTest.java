@@ -1,3 +1,5 @@
+package by.epam.training.composition;
+
 import static org.junit.Assert.*;
 
 public class Task7CompositionTest {
