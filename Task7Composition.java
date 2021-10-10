@@ -2,29 +2,37 @@ package by.epam.training.composition;
 
 import java.util.Random;
 
-public class Task7Composition {
+public class Task7Composition { /*Составить программу для вычисления значений функции F(x) на отрезке
+                                 [a,b] с шагом h. Результат представить в виде таблицы, первый
+                                 столбец которой - значения аргумента, второй соответсвующее значение функции.
+                                */
 
         public static void main(String[] args) {
 
+            TableView view = new TableView();
             int pointA = getPoint(); //инициализация точки А
             int pointB = getPoint(); //инициализация В
             int stepH = calculateStep(pointA,pointB); //вычисление шага H
-            int min = Math.min(pointA, pointB);//установка начала отрезка
+            int arg = Math.min(pointA, pointB); //установка начала отрезка
             int max = Math.max(pointA, pointB); //установка конца отрезка
-            showTopOfTheTable(min,max,stepH); //вывод шапки таблицы
-            while ((min+stepH)<=max) {
-                double x = calculateX(min); //вычисление F(x)
-                min += stepH;
-                printNewLine(min,x); //вывод очередной строки таблицы
+            view.viewTopOfTheTable(arg,max,stepH); //вывод шапки таблицы
+            while (hasNextStep(arg,max)) {
+                double function = calculateFunction(arg); //вычисление F(x)
+                view.printNewLine(arg,function); //вывод очередной строки таблицы
+                arg += stepH;
             }
         }
 
-        static int getPoint() {
+        public static int getPoint() {
             Random random = new Random();
             return random.nextInt(91)+10;
         }
 
-        static int calculateStep(int pointA, int pointB) {
+        public static boolean hasNextStep(int arg, int max){
+            return arg <= max;
+        }
+
+        public static int calculateStep(int pointA, int pointB){
             while (pointA==pointB) {
                 pointA = getPoint();
                 pointB = getPoint();
@@ -36,17 +44,8 @@ public class Task7Composition {
             return step;
         }
 
-        static double calculateX(int min){
-            return (Math.pow(Math.sin(min),2) - Math.pow(Math.cos(min),2));
-        }
-
-        static void showTopOfTheTable(int min, int max, int stepH) {
-            System.out.printf("\ta = [%d]; b = [%d]; h = [%d] \n", min,max,stepH);
-            System.out.println("-----------------|------------------|");
-        }
-        static void printNewLine(int min, double x) {
-            System.out.printf("  arg =[%d] \t |\t x =[%.3f] \t| \n", min,x);
-            System.out.println("-----------------|------------------|");
+        public static double calculateFunction(int arg){
+            return (Math.pow(Math.sin(arg),2) - Math.pow(Math.cos(arg),2));
         }
     }
 
